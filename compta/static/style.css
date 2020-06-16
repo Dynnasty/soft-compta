@@ -1,0 +1,53 @@
+html, body {
+    margin: 0;
+    background-color: rgb(32, 32, 32);
+    padding: 0;
+    color: white;
+    height: 100%;
+}
+
+.contentwrapper {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px;
+    height: 100%;
+    padding: 30px;
+}
+
+.history {
+    grid-column: 1 / 3;
+    padding: 20px;
+    -webkit-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+}
+
+.menu {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    padding: 20px;
+    -webkit-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+}
+
+.menu button {
+    width: 50%;
+    height: 70%;
+    margin: auto;
+}
+
+.spendings {
+    -webkit-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    padding: 20px;
+}
+
+.spendings h1 {
+    text-align: center;
+    margin-top: 20%;
+}
