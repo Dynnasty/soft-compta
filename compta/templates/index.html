@@ -59,7 +59,7 @@
 
 
 
-        <div class="spendings bg-dark"><h1>1576.0 €</h1></div>
+        <div class="spendings bg-dark"><h1>{{ amount }} €</h1> </div>
         <div class="history bg-dark">
             <h3>History:</h3>
             <table class="table text-light bg-dark">
@@ -69,27 +69,19 @@
                     <th scope="col">Label</th>
                     <th scope="col">Description</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Date</th>
                 </tr>
                 </thead>
                 <tbody>
+                  {% for row in comptadata %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Gorceries</td>
-                    <td>Promo cash groceries</td>
-                    <td>€152.2</td>
+                    <th scope="row">{{ row[0] }}</th>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
                 </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Gorceries</td>
-                    <td>Promo cash groceries</td>
-                    <td>€152.2</td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Gorceries</td>
-                    <td>Promo cash groceries</td>
-                    <td>€152.2</td>
-                </tr>
+                  {% endfor %}
                 </tbody>
             </table>
         </div>
