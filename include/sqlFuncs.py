@@ -47,6 +47,8 @@ def print_table(conn, name):
         c.execute(table)
         conn.commit()
         rows = c.fetchall()
+        for row in rows:
+            print("print_table: Username database: " + str(row))
         return (rows)
     except Error as e:
         print(e)    
