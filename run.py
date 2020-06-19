@@ -6,14 +6,12 @@ import os
 sys.path.insert(1, 'include/')
 from sqlInit import init_db
 from sqlFuncs import check_table, insert_table, print_table
-from userHdl import create_user, delete_user
+from userHdl import create_user, delete_user, update_user
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 conn = init_db()
 check_table(conn)
-create_user(conn, "usertest", "test", "3")
-delete_user(conn, "usertest")
 conn.close()
 
 @app.route('/')
@@ -34,7 +32,7 @@ def logUser(status=None):
     conn = init_db()
     rows = print_table(conn, "users")
     for row in rows:
-        print("loguser: trying user" + row[1])
+        print("loguser: trying user = " + row[1])
         if request.form['password'] == row[2] and request.form['username'] == row[1]:
             session['logged_in'] = True
             conn.close()
