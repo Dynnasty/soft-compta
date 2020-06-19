@@ -1,5 +1,5 @@
 # soft-compta
-Epitech's Innovative Hub Accounting Software
+Epitech's Innovation Hub project Accounting Software
 
 
 To setup this software:
