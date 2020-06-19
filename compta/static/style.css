@@ -28,7 +28,7 @@ html, body {
     text-align: center;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    /* grid-template-rows: 1fr 1fr 1fr 1fr; */
     padding: 20px;
     -webkit-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
@@ -36,6 +36,12 @@ html, body {
 }
 
 .menu button {
+    width: 50%;
+    height: 70%;
+    margin: auto;
+}
+
+#exporta {
     width: 50%;
     height: 70%;
     margin: auto;
@@ -53,7 +59,7 @@ html, body {
     margin-top: 20%;
 }
 
-form {
+.loginform {
     display:grid;
     grid-template-columns: 1fr;
     grid-gap: 10px;
@@ -62,7 +68,7 @@ form {
     padding: 40px;
 }
 
-form input[type="text"], input[type="password"] {
+.loginform input[type="text"], input[type="password"] {
     width: 50%;
     margin: auto;
     border: none;
@@ -71,11 +77,72 @@ form input[type="text"], input[type="password"] {
     border-bottom: 2px solid rgb(32, 32, 32);
 }
 
-form input[type="submit"] {
+.loginform input[type="submit"] {
     width: 30%;
     margin: auto;
 }
 
 a {
     height: 100px;
+}
+
+.valueform {
+    width: 40%;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    height: auto;
+  
+}
+.valueform form {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr;
+    padding: 20px;
+}
+.valueform select {
+    padding: 10px;
+    border: none;
+    background: none;
+    color: white;
+    border-bottom: 2px solid rgb(32, 32, 32);
+    text-align: left;
+    margin: auto;
+    width: 50%;
+}
+
+#date {
+    width: 50%;
+    margin: auto;
+}
+
+.value form input[type="date"], input[type="number"] {
+    width: 50%;
+    margin: auto;
+    border: none;
+    background: none;
+    color: white;
+    border-bottom: 2px solid rgb(32, 32, 32);
+}
+
+.valueform input[type="text"], input[type="password"] {
+    width: 50%;
+    margin: auto;
+    border: none;
+    background: none;
+    color: white;
+    border-bottom: 2px solid rgb(32, 32, 32);
+}
+
+.valueform input[type="submit"] {
+    width: 30%;
+    margin: auto;
+}
+
+#hidebtn {
+    width: 30%;
+    height: auto;
 }

@@ -11,9 +11,6 @@ app = Flask(__name__)
 app.secret_key = os.urandom(12)
 conn = init_db()
 check_table(conn)
-for _ in range(13):
-    args = ["Groceries", "Some groceries for event weekly", str(randrange(400)), "30/12/2020"]
-    insert_table(conn, "compta", args)
 conn.close()
 
 @app.route('/')
@@ -44,14 +41,17 @@ def logUser(status=None):
     conn.close()
     return redirect("/")
 
-@app.route('/add')
+@app.route('/add', methods = ['POST', 'GET'])
 def add():
     if not session.get('logged_in'):
         return render_template("login.html")
+    if request.method == 'POST':
+        args = [request.form["name"], request.form["desc"], request.form["amount"], request.form["date"]]
+        print(args)
+    # insert_table(conn, "compta", args)
     print ("Trying to add some spendings")
     conn.close()
-    exit()
-    return render_template("index.html")
+    return redirect("/")
 
 @app.route('/exportmonth')
 def exportmonth():
