@@ -49,4 +49,4 @@ def print_table(conn, name):
         rows = c.fetchall()
         return (rows)
     except Error as e:
-        print(e)    
+        print(e)
