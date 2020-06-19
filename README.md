@@ -1,5 +1,5 @@
 # soft-compta
-Projet hub Epitech - logiciel compta
+Epitech's Innovation Hub project Accounting Software
 
 
 To setup this software:
