@@ -15,7 +15,7 @@ fish:
 
 ## 2. Install requirements
 `
-$ pip upgrade && pip install requirements.txt`
+$ pip3 install -r requirements.txt`
 
 ## 3. Run !
 
