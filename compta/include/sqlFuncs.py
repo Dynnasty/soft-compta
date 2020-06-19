@@ -46,7 +46,6 @@ def print_table(conn, name):
         c = conn.cursor()
         c.execute(table)
         conn.commit()
-        print ("PRINT:")
         rows = c.fetchall()
         return (rows)
     except Error as e:
