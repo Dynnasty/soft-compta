@@ -52,3 +52,13 @@ def print_table(conn, name):
         return (rows)
     except Error as e:
         print(e)
+
+def delete_row(conn, tablename, id):
+    table = """ DELETE FROM """ + tablename + """ WHERE id = """ + str(id)
+    try:
+        c = conn.cursor()
+        c.execute(table)
+        conn.commit()
+        return 200
+    except Error as e:
+        print(e)

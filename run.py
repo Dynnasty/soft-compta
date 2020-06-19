@@ -6,13 +6,14 @@ import os
 sys.path.insert(1, 'include/')
 from sqlInit import init_db
 from sqlFuncs import check_table, insert_table, print_table
-from userHdl import create_user
+from userHdl import create_user, delete_user
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 conn = init_db()
 check_table(conn)
-create_user(conn, "Dynnasty", "bite", "3")
+create_user(conn, "usertest", "test", "3")
+delete_user(conn, "usertest")
 conn.close()
 
 @app.route('/')
