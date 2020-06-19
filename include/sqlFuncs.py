@@ -51,4 +51,4 @@ def print_table(conn, name):
             print("print_table: Username database: " + str(row))
         return (rows)
     except Error as e:
-        print(e)    
+        print(e)
