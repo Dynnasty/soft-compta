@@ -6,6 +6,7 @@ import os
 sys.path.insert(1, 'include/')
 from sqlInit import init_db
 from sqlFuncs import check_table, insert_table, print_table
+from userHdl import create_user, delete_user, update_user
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
@@ -31,11 +32,9 @@ def logUser(status=None):
     conn = init_db()
     rows = print_table(conn, "users")
     for row in rows:
+        print("loguser: trying user = " + row[1])
         if request.form['password'] == row[2] and request.form['username'] == row[1]:
             session['logged_in'] = True
-            conn.close()
-            return redirect("/")
-        else:
             conn.close()
             return redirect("/")
     conn.close()
@@ -72,4 +71,34 @@ def exportyear():
     return (send_file("./compta.csv"))
     return render_template("index.html")
 
+@app.route('/panel')
+def panel():
+    conn = init_db()
+    rows = print_table(conn, "users")
+    return render_template("panel.html", users=rows, editstate="False")
+
+@app.route('/adduser', methods=['POST'])
+def adduser():
+    conn = init_db()
+    rows = print_table(conn, "users")
+    if request.method == 'POST':
+        create_user(conn, request.form["username"], request.form["password"], request.form["privilege"])
+    return redirect('/panel')
+
+@app.route('/deluser', methods=['POST'])
+def deluser():
+    conn = init_db()
+    if request.method == 'POST':
+        delete_user(conn, request.form['username'])
+    return redirect('/panel')
+
+@app.route('/edituser', methods=['POST'])
+def edituser():
+    conn = init_db()
+    rows = print_table(conn, "users")
+    if request.method == 'POST':
+        delete_user(conn, request.form['username'])
+    return render_template("panel.html", users=rows, editstate="")
+
 app.run(debug=True)
+

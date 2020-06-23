@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='panel.css') }}">
+    <script>
+        function showEditForm() {
+            document.getElementsByClassName("valueform")[0].setAttribute("style", "display: fixed;")
+        }
+        function HideEditForm() {
+            document.getElementsByClassName("valueform")[0].setAttribute("style", "display: none;")
+        }
+        if ({{ 'editstate' }} != "False") {
+            document.getElementByClassName("")
+        }
+    </script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="contentwrapper">
+        <div class="menu menu bg-dark">
+            <div class="userCreation">
+                <form class="createform" action="/adduser" method="POST">
+                    <h3>Create user:</h3>
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" placeholder="Password" name="password" required>
+                    <select name="privilege" id="privilege">
+                        <option value="1">User</option>
+                        <option value="2">Manager</option>
+                        <option value="3">Administrator</option>
+                    </select>
+                    <input type="submit" value="Create">
+                </form>
+            </div>
+            <div class="userList">
+                <table class="table text-light bg-dark">
+                    <h3>User list:</h3>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Privilege Level</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in users %}
+                        <tr>
+                            <th scope="row">{{ row[0] }}</th>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[3] }}</td>
+                            <td>
+                                <form action="/edituser" method="POST"><button name="username" value="{{ row[1] }}"
+                                        type="submit">Edit user</button></form>
+                            </td>
+                            <td>
+                                <form action="/deluser" method="POST"><button name="username" value="{{ row[1] }}"
+                                        type="submit">Delete user</button></form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="editform menu bg-dark" style="display: none;">
+                    <form action="/add" method="POST">
+                        <h3>Edit user:</h3>
+                        <input type="text" placeholder="Username">
+                        <input type="number" placeholder="Password">
+                        <select name="privilege" id="privilege">
+                            <option value="1">User</option>
+                            <option value="2">Manager</option>
+                            <option value="3">Administrator</option>
+                        </select>
+                        <input type="submit">
+                        <button type="button" onclick="hideValueForm()" id="hidebtn"
+                            class="btn btn-secondary">Close</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

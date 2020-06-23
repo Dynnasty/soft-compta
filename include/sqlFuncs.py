@@ -47,6 +47,31 @@ def print_table(conn, name):
         c.execute(table)
         conn.commit()
         rows = c.fetchall()
+        for row in rows:
+            print("print_table: Username database: " + str(row))
         return (rows)
+    except Error as e:
+        print(e)
+
+def delete_row(conn, tablename, id):
+    table = """ DELETE FROM """ + tablename + """ WHERE id = """ + str(id) + """; """
+    try:
+        c = conn.cursor()
+        c.execute(table)
+        conn.commit()
+        return 200
+    except Error as e:
+        print(e)
+
+def update_row(conn, tablename, name, args):
+    try:
+        if (tablename == "users"):
+            table = """ UPDATE users SET name = '""" + name + """', pwd = '""" + args[0] + """', permissions = '""" + args[1] + """' WHERE name = '""" + name + """'; """
+        if (tablename == "compta"):
+            table = """ UPDATE compta SET name = '""" + name + """', description = '""" + args[0] + """', amount = '""" + args[1] + """', date = '""" + args[2] + """' WHERE name = '""" + name + """'; """
+        c = conn.cursor()
+        c.execute(table)
+        conn.commit()
+        return 200
     except Error as e:
         print(e)
