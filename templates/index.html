@@ -26,14 +26,14 @@
         <div class="valueform menu bg-dark" style="display: none;">
           <form action="/add" method="POST">
             <h3>Add to database:</h3>
-            <input type="text" placeholder="Name">
+            <input type="text" name="name" placeholder="Name">
             <select name="type" id="type">
-              <option>Spending</option>
-              <option>Income</option>
+              <option value="neg">Spending</option>
+              <option value="pos">Income</option>
             </select>
-            <input type="text" placeholder="Description">
-            <input type="number" placeholder="Amount">
-            <input id="date" type="date" placeholder="date">
+            <input type="text" name="desc" placeholder="Description">
+            <input type="number" name="amount" placeholder="Amount">
+            <input id="date" type="date" name="date" placeholder="date">
             <input type="submit" class="btn btn-secondary" value="Save">
             <button type="button" onclick="hideValueForm()" id="hidebtn" class="btn btn-secondary">Close</button>
           </form>
@@ -57,7 +57,7 @@
                     <th scope="row">{{ row[0] }}</th>
                     <td>{{ row[1] }}</td>
                     <td>{{ row[2] }}</td>
-                    <td>{{ row[3] }}</td>
+                    <td>{{ row[3] }} €</td>
                     <td>{{ row[4] }}</td>
                 </tr>
                   {% endfor %}

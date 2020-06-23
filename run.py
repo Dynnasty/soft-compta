@@ -20,11 +20,9 @@ def home():
         return render_template("login.html")
     conn = init_db()
     comptadata = print_table(conn, "compta")
-    print(comptadata)
     amount = 0
     for rows in comptadata:
         amount = amount + rows[3]
-        print(rows[3])
     return render_template("index.html",comptadata=comptadata, amount=amount)
 
 @app.route('/loguser', methods=['POST'])
@@ -35,6 +33,7 @@ def logUser(status=None):
         print("loguser: trying user = " + row[1])
         if request.form['password'] == row[2] and request.form['username'] == row[1]:
             session['logged_in'] = True
+            session['username'] = row[1]
             conn.close()
             return redirect("/")
     conn.close()
@@ -42,12 +41,17 @@ def logUser(status=None):
 
 @app.route('/add', methods = ['POST', 'GET'])
 def add():
+    conn = init_db()
     if not session.get('logged_in'):
         return render_template("login.html")
     if request.method == 'POST':
-        args = [request.form["name"], request.form["desc"], request.form["amount"], request.form["date"]]
+        print (request.form["type"])
+        if request.form["type"] == "neg":
+            args = [request.form["name"], request.form["desc"], "-" + request.form["amount"], request.form["date"]]
+        else:
+            args = [request.form["name"], request.form["desc"], request.form["amount"], request.form["date"]]
         print(args)
-    # insert_table(conn, "compta", args)
+    insert_table(conn, "compta", args)
     print ("Trying to add some spendings")
     conn.close()
     return redirect("/")
