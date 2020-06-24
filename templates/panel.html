@@ -11,10 +11,17 @@
         function showEditForm(bvalue) {
             console.log(bvalue)
             document.getElementById("username").value = bvalue; 
-            document.getElementsByClassName("editform")[0].setAttribute("style", "display: fixed;")
+            document.getElementsByClassName("editform")[1].setAttribute("style", "display: fixed;")
         }
         function hideEditForm() {
-            document.getElementsByClassName("editform")[0].setAttribute("style", "display: none;")
+            document.getElementsByClassName("editform")[1].setAttribute("style", "display: none;")
+        }
+        function showCreateForm() {
+
+            document.getElementsByClassName("creation")[0].setAttribute("style", "display: fixed;")
+        }
+        function hideCreateForm() {
+            document.getElementsByClassName("creation")[0].setAttribute("style", "display: none;")
         }
     </script>
     <title>FWAccounting - Admin</title>
@@ -22,10 +29,14 @@
 
 <body>
     <div class="contentwrapper">
-        <div class="menu menu bg-dark">
-            <a href="/" class="btn btn-secondary" style="width: 10%;">Home</a>
-            <div class="userCreation">
-                <form class="createform" action="/adduser" method="POST">
+        <div class="bg-dark menu">
+            <h2>FWAccounting</h2>
+            <div class="nav">
+                <button class="btn btn-secondary" onclick="window.location.href='/'">Home</button>
+                <button class="btn btn-secondary" onclick="showCreateForm()">Create user</button>
+            </div>
+            <div class="createform editform creation bg-dark" style="display: none;">
+                <form action="/adduser" method="POST">
                     <h3>Create user:</h3>
                     <input type="text" name="username" placeholder="Username" required>
                     <input type="password" placeholder="Password" name="password" required>
@@ -35,6 +46,8 @@
                         <option value="3">Administrator</option>
                     </select>
                     <input type="submit" value="Create">
+                    <button type="button" onclick="hideCreateForm()" id="hidebtn"
+                    class="btn btn-secondary">Close</button>
                 </form>
             </div>
             <div class="userList">

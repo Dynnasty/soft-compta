@@ -17,14 +17,6 @@ h3 {
     min-height:100%;
 }
 
-.userCreation {
-    display: grid;
-    grid-template-columns: 1fr;
-    padding: 20px;
-    width: 30%;
-    margin: auto;
-}
-
 .createform {
     display: grid;
     grid-template-columns: 1fr;
@@ -49,9 +41,18 @@ h3 {
     padding: 20px;
 }
 
-.editform {
+.editform, .createform{
     width: 30%;
     margin: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    -webkit-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 22px 0px rgba(0,0,0,0.75);
+    padding: 20px;
 }
 
 .editform form {
@@ -79,4 +80,19 @@ h3 {
 .editform button {
     width: 30%;
     margin: auto;
+}
+
+h2 {
+    text-align: center;
+    padding: 10px;
+    color: white;
+}
+
+.nav {
+    padding: 20px;
+    display: grid;
+    width: 20%;
+    grid-gap: 5px;
+    margin: auto;
+    grid-template-columns: 1fr 1fr;
 }
