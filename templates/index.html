@@ -33,6 +33,7 @@
             <button type="button" onclick="showValueFormMonth()"class="btn btn-secondary">Export monthly</button>
             <input id="exporta" type="button" onclick="window.location.href='/exportyear';" class="btn btn-secondary" value="Export All">
             {% endif %}
+            <button onclick="window.location.href='/logout'" type="button" href="/logout" class="btn btn-danger">Log out</button>
           </div>
         <div class="valueform menu bg-dark" style="display: none;">
           <form action="/add" method="POST" enctype=multipart/form-data>
@@ -43,7 +44,7 @@
               <option value="pos">Income</option>
             </select>
             <input type="text" name="desc" placeholder="Description">
-            <input type="number" step="0.01 name="amount" placeholder="Amount">
+            <input type="number" step="0.01" name="amount" placeholder="Amount">
             <input id="date" type="date" name="date" placeholder="date">
             <input type=file name=file>
             <input type="submit" class="btn btn-secondary" value="Save">

@@ -43,6 +43,11 @@ def logUser(status=None):
     conn.close()
     return redirect("/")
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
+
 @app.route('/add', methods = ['POST', 'GET'])
 def add():
     conn = init_db()
