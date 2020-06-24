@@ -14,16 +14,17 @@
         function HideEditForm() {
             document.getElementsByClassName("valueform")[0].setAttribute("style", "display: none;")
         }
-        if ({{ 'editstate' }} != "False") {
-            document.getElementByClassName("")
+        if ('{{ 'editstate' }}' != "False") {
+            document.getElementsByClassName("contentwrapper")
         }
     </script>
-    <title>Document</title>
+    <title>FWAccounting - Admin</title>
 </head>
 
 <body>
     <div class="contentwrapper">
         <div class="menu menu bg-dark">
+            <a href="/" class="btn btn-secondary" style="width: 10%;">Home</a>
             <div class="userCreation">
                 <form class="createform" action="/adduser" method="POST">
                     <h3>Create user:</h3>
@@ -56,33 +57,32 @@
                             <td>{{ row[1] }}</td>
                             <td>{{ row[3] }}</td>
                             <td>
-                                <form action="/edituser" method="POST"><button name="username" value="{{ row[1] }}"
-                                        type="submit">Edit user</button></form>
+                                <!-- <form action="/edituser" method="POST"><button name="username" value="{{ row[1] }}"
+                                        type="submit">Edit user</button></form> -->
                             </td>
                             <td>
                                 <form action="/deluser" method="POST"><button name="username" value="{{ row[1] }}"
-                                        type="submit">Delete user</button></form>
+                                        type="submit" class="btn btn-secondary">Delete user</button></form>
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                <div class="editform menu bg-dark" style="display: none;">
-                    <form action="/add" method="POST">
-                        <h3>Edit user:</h3>
-                        <input type="text" placeholder="Username">
-                        <input type="number" placeholder="Password">
-                        <select name="privilege" id="privilege">
-                            <option value="1">User</option>
-                            <option value="2">Manager</option>
-                            <option value="3">Administrator</option>
-                        </select>
-                        <input type="submit">
-                        <button type="button" onclick="hideValueForm()" id="hidebtn"
-                            class="btn btn-secondary">Close</button>
-                    </form>
-                </div>
-                
+            </div>
+            <div class="editform menu bg-dark" style="display: none;">
+                <form action="/add" method="POST">
+                    <h3>Edit user:</h3>
+                    <input type="text" placeholder="Username">
+                    <input type="number" placeholder="Password">
+                    <select name="privilege" id="privilege">
+                        <option value="1">User</option>
+                        <option value="2">Manager</option>
+                        <option value="3">Administrator</option>
+                    </select>
+                    <input type="submit">
+                    <button type="button" onclick="hideValueForm()" id="hidebtn"
+                        class="btn btn-secondary">Close</button>
+                </form>
             </div>
         </div>
     </div>

@@ -8,7 +8,9 @@ def check_table(conn):
                                     description text NOT NULL,
                                     amount real NOT NULL,
                                     date text NOT NULL,
-                                    recieptpath text
+                                    recieptpath text,
+                                    state text NOT NULL
+
                                 ); """
     user = """ CREATE TABLE IF NOT EXISTS users (
                                     id integer PRIMARY KEY,
@@ -30,10 +32,10 @@ def check_table(conn):
 def insert_table(conn, tablename, args):
     if (tablename == "compta"):
         try:
-            table = """ INSERT INTO """ + tablename + """ (name,description,amount,date, recieptpath) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """','""" + args[3] + """', '""" + args[4] + """'); """
+            table = """ INSERT INTO """ + tablename + """ (name,description,amount,date, recieptpath,state) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """','""" + args[3] + """', '""" + args[4] + """','Pending'); """
         except IndexError:
             print("No file provided! Inserting without filepath")
-            table = """ INSERT INTO """ + tablename + """ (name,description,amount,date, recieptpath) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """','""" + args[3] + """', 'NULL'); """
+            table = """ INSERT INTO """ + tablename + """ (name,description,amount,date, recieptpath,state) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """','""" + args[3] + """', 'NULL','Pending'); """
 
     if (tablename == "users"):
         table = """ INSERT INTO """ + tablename + """ (name,pwd,permissions) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """'); """
@@ -72,10 +74,9 @@ def update_row(conn, tablename, name, args):
         if (tablename == "users"):
             table = """ UPDATE users SET name = '""" + name + """', pwd = '""" + args[0] + """', permissions = '""" + args[1] + """' WHERE name = '""" + name + """'; """
         if (tablename == "compta"):
-            table = """ UPDATE compta SET name = '""" + name + """', description = '""" + args[0] + """', amount = '""" + args[1] + """', date = '""" + args[2] + """' WHERE name = '""" + name + """'; """
+            table = """ UPDATE compta SET name = '""" + name + """', description = '""" + args[0] + """', amount = '""" + args[1] + """', date = '""" + args[2] + """',  recieptpath = '""" + args[3] + """' ,state = '""" + args[4] + """' WHERE name = '""" + name + """'; """
         c = conn.cursor()
         c.execute(table)
         conn.commit()
-        return 200
     except Error as e:
         print(e)

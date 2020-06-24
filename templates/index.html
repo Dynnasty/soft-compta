@@ -13,12 +13,12 @@
         document.getElementsByClassName("valueform")[0].setAttribute("style", "display: none;")
       }
     </script>
-    <title>Document</title>
+    <title>FWAccounting - Home</title>
 </head>
 <body class=".bg-dark">
     <div class="contentwrapper">
         <div class="menu bg-dark">
-            <h3>More actions</h3>
+            <h3>FWAccounting</h3>
             {% if privilege == '3' %}
             <input id="exporta" type="button" onclick="window.location.href='/panel';" class="btn btn-secondary" value="Administrator panel">
             {% endif %}
@@ -47,15 +47,18 @@
         <div class="spendings bg-dark"><h1>{{ amount }} €</h1> </div>
         <div class="history bg-dark">
             <h3>History:</h3>
-            <table class="table text-light bg-dark">
+            <table style="text-align: center;"class="table text-light bg-dark">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Label</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">Amount</th>
                     <th scope="col">Date</th>
                     <th scope ="col">Reciept</th>
+                    {% if privilege > '1' %}
+                    <th scope="col">Approve/Delte</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -68,7 +71,19 @@
                     <td>{{ row[3] }} €</td>
                     <td>{{ row[4] }}</td>
                     {% if row[5] != 'NULL' %}
-                    <td><a target="_blank" rel="noopener noreferrer" href="{{ row[5] }}">Download reciept</a></td>
+                    <td><a target="_blank" rel="noopener noreferrer" href="{{ row[5] }}">Download invoice</a></td>
+                    {% else %}
+                    <td>No invoice available</td>
+                    {% endif %}
+                    {% if row[6] == "Pending" and privilege > '1' %}
+                    <td>
+                      <form action="/apprspend" method="POST" style="width: 30%;margin: auto;"><button name="id" value="{{ row[1] }}"
+                        type="submit" class="btn btn-secondary"style="width: 100%;">Approve</button></form>
+                        <form action="/delspend" method="POST" style="width: 30%;margin: auto;"><button name="id" value="{{ row[0] }}"
+                          type="submit" class="btn btn-danger"style="width: 100%;">Delete</button></form>
+                    </td>
+                    {% else %}
+                    <td>Approved</td>
                     {% endif %}
                 </tr>
                   {% endfor %}

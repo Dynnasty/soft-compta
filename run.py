@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 sys.path.insert(1, 'include/')
 from sqlInit import init_db
-from sqlFuncs import check_table, insert_table, print_table
+from sqlFuncs import check_table, insert_table, print_table, update_row, delete_row
 from userHdl import create_user, delete_user, update_user
 
 app = Flask(__name__)
@@ -25,8 +25,8 @@ def home():
     comptadata = print_table(conn, "compta")
     amount = 0
     for rows in reversed(comptadata):
-        amount = amount + rows[3]
-    print(session['privilege'])
+        if rows[6] != "Pending":
+            amount = amount + rows[3]
     return render_template("index.html", comptadata=reversed(comptadata), amount=round(amount, 2), privilege = session['privilege'])
 
 @app.route('/loguser', methods=['POST'])
@@ -39,7 +39,6 @@ def logUser(status=None):
             session['logged_in'] = True
             session['username'] = row[1]
             session['privilege'] = row[3]
-            print (session['privilege'])
             conn.close()
             return redirect("/")
     conn.close()
@@ -83,7 +82,7 @@ def exportyear():
     print ("Trying to export some spendings yearly")
     conn = init_db()
     rows = print_table(conn, "compta")
-    pd.DataFrame(rows).to_csv("./compta.csv", sep='\t', header=["Number", "Name", "Description", "Amount", "Date"])
+    pd.DataFrame(rows).to_csv("./compta.csv", sep='\t', header=["Number", "Name", "Description", "Amount", "Date", "InvoicePath"])
     return (send_file("./compta.csv"))
     return render_template("index.html")
 
@@ -131,6 +130,36 @@ def edituser():
 def download(filename):
     uploads = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
     return send_from_directory(directory=uploads, filename=filename)
+
+@app.route('/apprspend', methods=['POST'])
+def approve():
+    conn = init_db()
+    if request.method == 'POST':
+        name = request.form['id']
+        rows = print_table(conn, "compta")
+        for row in rows:
+            print("in rows")
+            if row[1] == name:
+                args = [row[2], str(row[3]), row[4], row[5], "Approved"]
+                update_row(conn, "compta", name, args);
+                print("Updated row")
+    return redirect('/')
+
+@app.route('/delspend', methods=['POST'])
+def delspend():
+    conn = init_db()
+    if request.method == 'POST':
+        name = request.form['id']
+        rows = print_table(conn, "compta")
+        for row in rows:
+            print("in rows")
+            print(row[0])
+            print("To ->")
+            print(name)
+            if str(row[0]) == str(name):
+                delete_row(conn, "compta", name);
+                print("Deleted row")
+    return redirect('/')
 
 app.run(debug=True)
 
