@@ -16,15 +16,14 @@ bash:
 ## Installation
 
 - Clone this repository
+
 `$ git clone https://github.com/Dynnasty/soft-compta`
 
 - Activate python venv
 
-bash:
-
 `$ source bin/activate`
 
-fish:
+or
 
 `$ source bin/activate.fish`
 
