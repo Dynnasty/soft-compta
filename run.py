@@ -3,6 +3,7 @@ from random import randrange
 import pandas as pd
 import sys
 import os
+from werkzeug.security import generate_password_hash, check_password_hash
 sys.path.insert(1, 'include/')
 from sqlInit import init_db
 from sqlFuncs import check_table, insert_table, print_table
@@ -21,9 +22,9 @@ def home():
     conn = init_db()
     comptadata = print_table(conn, "compta")
     amount = 0
-    for rows in comptadata:
+    for rows in reversed(comptadata):
         amount = amount + rows[3]
-    return render_template("index.html",comptadata=comptadata, amount=amount)
+    return render_template("index.html",comptadata=reversed(comptadata), amount=amount)
 
 @app.route('/loguser', methods=['POST'])
 def logUser(status=None):
@@ -31,7 +32,7 @@ def logUser(status=None):
     rows = print_table(conn, "users")
     for row in rows:
         print("loguser: trying user = " + row[1])
-        if request.form['password'] == row[2] and request.form['username'] == row[1]:
+        if check_password_hash(row[2], request.form['password']) and request.form['username'] == row[1]:
             session['logged_in'] = True
             session['username'] = row[1]
             conn.close()
@@ -86,7 +87,7 @@ def adduser():
     conn = init_db()
     rows = print_table(conn, "users")
     if request.method == 'POST':
-        create_user(conn, request.form["username"], request.form["password"], request.form["privilege"])
+        create_user(conn, request.form["username"], generate_password_hash(request.form["password"], method='pbkdf2:sha256', salt_length=8), request.form["privilege"])
     return redirect('/panel')
 
 @app.route('/deluser', methods=['POST'])
