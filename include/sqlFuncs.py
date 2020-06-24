@@ -7,7 +7,8 @@ def check_table(conn):
                                     name text NOT NULL,
                                     description text NOT NULL,
                                     amount real NOT NULL,
-                                    date text NOT NULL
+                                    date text NOT NULL,
+                                    recieptpath text
                                 ); """
     user = """ CREATE TABLE IF NOT EXISTS users (
                                     id integer PRIMARY KEY,
@@ -28,7 +29,12 @@ def check_table(conn):
 
 def insert_table(conn, tablename, args):
     if (tablename == "compta"):
-        table = """ INSERT INTO """ + tablename + """ (name,description,amount,date) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """','""" + args[3] + """'); """
+        try:
+            table = """ INSERT INTO """ + tablename + """ (name,description,amount,date, recieptpath) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """','""" + args[3] + """', '""" + args[4] + """'); """
+        except IndexError:
+            print("No file provided! Inserting without filepath")
+            table = """ INSERT INTO """ + tablename + """ (name,description,amount,date, recieptpath) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """','""" + args[3] + """', 'NULL'); """
+
     if (tablename == "users"):
         table = """ INSERT INTO """ + tablename + """ (name,pwd,permissions) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """'); """
     print(table)

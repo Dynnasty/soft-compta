@@ -1,9 +1,10 @@
-from flask import Flask, render_template, session, request, flash, send_file, redirect
+from flask import Flask, render_template, session, request, flash, send_file, redirect, send_from_directory
 from random import randrange
 import pandas as pd
 import sys
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 sys.path.insert(1, 'include/')
 from sqlInit import init_db
 from sqlFuncs import check_table, insert_table, print_table
@@ -11,6 +12,7 @@ from userHdl import create_user, delete_user, update_user
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
+app.config['UPLOAD_FOLDER'] = './reciepts'
 conn = init_db()
 check_table(conn)
 conn.close()
@@ -51,7 +53,13 @@ def add():
     if request.method == 'POST':
         print (request.form["type"])
         if request.form["type"] == "neg":
-            args = [request.form["name"], request.form["desc"], "-" + request.form["amount"], request.form["date"]]
+            file = request.files['file']
+            if file:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                args = [request.form["name"], request.form["desc"], "-" + request.form["amount"], request.form["date"], os.path.join(app.config['UPLOAD_FOLDER'], filename)]
+            else:
+                args = [request.form["name"], request.form["desc"], "-" + request.form["amount"], request.form["date"]]
         else:
             args = [request.form["name"], request.form["desc"], request.form["amount"], request.form["date"]]
         print(args)
@@ -118,6 +126,11 @@ def edituser():
     if request.method == 'POST':
         delete_user(conn, request.form['username'])
     return render_template("panel.html", users=rows, editstate="")
+
+@app.route('/reciepts/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    uploads = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
+    return send_from_directory(directory=uploads, filename=filename)
 
 app.run(debug=True)
 
