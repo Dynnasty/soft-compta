@@ -67,18 +67,34 @@ def add():
     conn.close()
     return redirect("/")
 
-@app.route('/exportmonth')
+@app.route('/exportmonth', methods=['POST'])
 def exportmonth():
+    conn = init_db()
     if not session.get('logged_in'):
         return render_template("login.html")
-    print ("I: Exporting data by month")
-    return render_template("index.html")
+    if request.method == "POST":
+        data = print_table(conn, "compta")
+        res = []
+        month = request.form['month']
+        for row in data:
+            print(row[4].split('-')[1])
+            print("compared to:")
+            print(request.form['month'])
+            if (row[4].split('-')[1] == request.form['month']):
+                res.append(row)
+                print("Row added!")
+        if len(res) == 0:
+            return redirect('/')
+        pd.DataFrame(res).to_csv("./compta" + month + ".csv", sep='\t', header=["Number", "Name", "Description", "Amount", "Date", "InvoicePath", "Approbation"])
+        print ("I: Exporting data by month")
+        return send_file("./compta" + month + ".csv")
+        redirect('/')
+    return redirect('/')
 
 @app.route('/exportyear')
 def exportyear():
     if not session.get('logged_in'):
         return render_template("login.html")
-
     print ("Trying to export some spendings yearly")
     conn = init_db()
     rows = print_table(conn, "compta")

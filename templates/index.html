@@ -12,6 +12,12 @@
       function hideValueForm() {
         document.getElementsByClassName("valueform")[0].setAttribute("style", "display: none;")
       }
+      function showValueFormMonth() {
+        document.getElementsByClassName("valueform")[1].setAttribute("style", "display: fixed;")
+      }
+      function hideValueFormMonth() {
+        document.getElementsByClassName("valueform")[1].setAttribute("style", "display: none;")
+      }
     </script>
     <title>FWAccounting - Home</title>
 </head>
@@ -24,7 +30,7 @@
             {% endif %}
             <button type="button" onclick="showValueForm()"class="btn btn-secondary">Add</button>
             {% if privilege != '1' %}
-            <button type="button" onclick="showValueForm()"class="btn btn-secondary">Export monthly</button>
+            <button type="button" onclick="showValueFormMonth()"class="btn btn-secondary">Export monthly</button>
             <input id="exporta" type="button" onclick="window.location.href='/exportyear';" class="btn btn-secondary" value="Export All">
             {% endif %}
           </div>
@@ -37,11 +43,32 @@
               <option value="pos">Income</option>
             </select>
             <input type="text" name="desc" placeholder="Description">
-            <input type="number" step="0.01" name="amount" placeholder="Amount">
+            <input type="number" step="0.01 name="amount" placeholder="Amount">
             <input id="date" type="date" name="date" placeholder="date">
             <input type=file name=file>
             <input type="submit" class="btn btn-secondary" value="Save">
             <button type="button" onclick="hideValueForm()" id="hidebtn" class="btn btn-secondary">Close</button>
+          </form>
+        </div>
+        <div class="valueform menu bg-dark" style="display: none;">
+          <form action="/exportmonth" method="POST" enctype=multipart/form-data>
+            <h3>Export by month:</h3>
+            <select name="month" id="month">
+              <option value="01">01</option>
+              <option value="02">02</option>
+              <option value="03">03</option>
+              <option value="04">04</option>
+              <option value="05">05</option>
+              <option value="06">06</option>
+              <option value="07">07</option>
+              <option value="08">08</option>
+              <option value="09">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
+            <input type="submit" class="btn btn-secondary" value="Save">
+            <button type="button" onclick="hideValueFormMonth()" id="hidebtn" class="btn btn-secondary">Close</button>
           </form>
         </div>
         <div class="spendings bg-dark"><h1>{{ amount }} €</h1> </div>
