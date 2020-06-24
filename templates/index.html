@@ -19,10 +19,15 @@
     <div class="contentwrapper">
         <div class="menu bg-dark">
             <h3>More actions</h3>
+            {% if privilege == '3' %}
+            <input id="exporta" type="button" onclick="window.location.href='/panel';" class="btn btn-secondary" value="Administrator panel">
+            {% endif %}
             <button type="button" onclick="showValueForm()"class="btn btn-secondary">Add</button>
+            {% if privilege != '1' %}
             <button type="button" onclick="showValueForm()"class="btn btn-secondary">Export monthly</button>
             <input id="exporta" type="button" onclick="window.location.href='/exportyear';" class="btn btn-secondary" value="Export All">
-        </div>
+            {% endif %}
+          </div>
         <div class="valueform menu bg-dark" style="display: none;">
           <form action="/add" method="POST">
             <h3>Add to database:</h3>
@@ -52,6 +57,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                  {% if privilege != '1' %}
                   {% for row in comptadata %}
                 <tr>
                     <th scope="row">{{ row[0] }}</th>
@@ -61,6 +67,9 @@
                     <td>{{ row[4] }}</td>
                 </tr>
                   {% endfor %}
+                  {% else %}
+                  <tr><td> You are a simple user, you can't see the spendings/income history</td></tr>
+                  {% endif %}
                 </tbody>
             </table>
         </div>

@@ -24,7 +24,8 @@ def home():
     amount = 0
     for rows in reversed(comptadata):
         amount = amount + rows[3]
-    return render_template("index.html",comptadata=reversed(comptadata), amount=amount)
+    print(session['privilege'])
+    return render_template("index.html", comptadata=reversed(comptadata), amount=round(amount, 2), privilege = session['privilege'])
 
 @app.route('/loguser', methods=['POST'])
 def logUser(status=None):
@@ -35,6 +36,8 @@ def logUser(status=None):
         if check_password_hash(row[2], request.form['password']) and request.form['username'] == row[1]:
             session['logged_in'] = True
             session['username'] = row[1]
+            session['privilege'] = row[3]
+            print (session['privilege'])
             conn.close()
             return redirect("/")
     conn.close()
@@ -78,12 +81,19 @@ def exportyear():
 
 @app.route('/panel')
 def panel():
+    if not session.get('logged_in'):
+        return render_template("login.html")
+    if session.get('privilege') < '3':
+        print ("You are not admin!")
+        return redirect('/')
     conn = init_db()
     rows = print_table(conn, "users")
     return render_template("panel.html", users=rows, editstate="False")
 
 @app.route('/adduser', methods=['POST'])
 def adduser():
+    if not session.get('logged_in'):
+        return render_template("login.html")
     conn = init_db()
     rows = print_table(conn, "users")
     if request.method == 'POST':
@@ -92,6 +102,8 @@ def adduser():
 
 @app.route('/deluser', methods=['POST'])
 def deluser():
+    if not session.get('logged_in'):
+        return render_template("login.html")
     conn = init_db()
     if request.method == 'POST':
         delete_user(conn, request.form['username'])
@@ -99,6 +111,8 @@ def deluser():
 
 @app.route('/edituser', methods=['POST'])
 def edituser():
+    if not session.get('logged_in'):
+        return render_template("login.html")
     conn = init_db()
     rows = print_table(conn, "users")
     if request.method == 'POST':
