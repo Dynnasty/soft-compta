@@ -139,8 +139,14 @@ def edituser():
     conn = init_db()
     rows = print_table(conn, "users")
     if request.method == 'POST':
-        delete_user(conn, request.form['username'])
-    return render_template("panel.html", users=rows, editstate="")
+        username = request.form['name']
+        for row in rows:
+            if username == row[1]:
+                args = [generate_password_hash(request.form["password"], method='pbkdf2:sha256', salt_length=8), request.form['privilege']]
+                print(request.form['password'])
+                update_row(conn, "users", username, args)
+                return redirect('/panel')
+    return redirect('/panel')
 
 @app.route('/reciepts/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
