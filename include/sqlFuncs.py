@@ -74,7 +74,7 @@ def update_row(conn, tablename, name, args):
         if (tablename == "users"):
             table = """ UPDATE users SET name = '""" + name + """', pwd = '""" + args[0] + """', permissions = '""" + args[1] + """' WHERE name = '""" + name + """'; """
         if (tablename == "compta"):
-            table = """ UPDATE compta SET name = '""" + name + """', description = '""" + args[0] + """', amount = '""" + args[1] + """', date = '""" + args[2] + """',  recieptpath = '""" + args[3] + """' ,state = '""" + args[4] + """' WHERE name = '""" + name + """'; """
+            table = """ UPDATE compta SET name = '""" + args[5] + """', description = '""" + args[0] + """', amount = '""" + args[1] + """', date = '""" + args[2] + """',  recieptpath = '""" + args[3] + """' ,state = '""" + args[4] + """' WHERE id = '""" + str(name) + """'; """
         c = conn.cursor()
         c.execute(table)
         conn.commit()

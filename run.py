@@ -82,7 +82,7 @@ def exportyear():
     print ("Trying to export some spendings yearly")
     conn = init_db()
     rows = print_table(conn, "compta")
-    pd.DataFrame(rows).to_csv("./compta.csv", sep='\t', header=["Number", "Name", "Description", "Amount", "Date", "InvoicePath"])
+    pd.DataFrame(rows).to_csv("./compta.csv", sep='\t', header=["Number", "Name", "Description", "Amount", "Date", "InvoicePath", "Approbation"])
     return (send_file("./compta.csv"))
     return render_template("index.html")
 
@@ -139,8 +139,8 @@ def approve():
         rows = print_table(conn, "compta")
         for row in rows:
             print("in rows")
-            if row[1] == name:
-                args = [row[2], str(row[3]), row[4], row[5], "Approved"]
+            if str(row[0]) == str(name):
+                args = [row[2], str(row[3]), row[4], row[5], "Approved",row[1]]
                 update_row(conn, "compta", name, args);
                 print("Updated row")
     return redirect('/')
@@ -157,7 +157,7 @@ def delspend():
             print("To ->")
             print(name)
             if str(row[0]) == str(name):
-                delete_row(conn, "compta", name);
+                delete_row(conn, "compta", str(name));
                 print("Deleted row")
     return redirect('/')
 

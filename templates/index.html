@@ -77,13 +77,14 @@
                     {% endif %}
                     {% if row[6] == "Pending" and privilege > '1' %}
                     <td>
-                      <form action="/apprspend" method="POST" style="width: 30%;margin: auto;"><button name="id" value="{{ row[1] }}"
+                      <form action="/apprspend" method="POST" style="width: 30%;margin: auto;"><button name="id" value="{{ row[0] }}"
                         type="submit" class="btn btn-secondary"style="width: 100%;">Approve</button></form>
                         <form action="/delspend" method="POST" style="width: 30%;margin: auto;"><button name="id" value="{{ row[0] }}"
                           type="submit" class="btn btn-danger"style="width: 100%;">Delete</button></form>
                     </td>
                     {% else %}
-                    <td>Approved</td>
+                    <td>Approved                          <form action="/delspend" method="POST" style="width: 30%;margin: auto;"><button name="id" value="{{ row[0] }}"
+                      type="submit" class="btn btn-danger"style="width: 100%;">Delete</button></form></td>
                     {% endif %}
                 </tr>
                   {% endfor %}
