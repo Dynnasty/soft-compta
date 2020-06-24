@@ -33,7 +33,7 @@ def logUser(status=None):
     conn = init_db()
     rows = print_table(conn, "users")
     for row in rows:
-        print("loguser: trying user = " + row[1])
+        print("I: Looking for " + request.form['username'] + " trying user = " + row[1])
         if check_password_hash(row[2], request.form['password']) and request.form['username'] == row[1]:
             session['logged_in'] = True
             session['username'] = row[1]
@@ -49,7 +49,6 @@ def add():
     if not session.get('logged_in'):
         return render_template("login.html")
     if request.method == 'POST':
-        print (request.form["type"])
         if request.form["type"] == "neg":
             file = request.files['file']
             if file:
@@ -64,7 +63,7 @@ def add():
             args = [request.form["name"], request.form["desc"], request.form["amount"], request.form["date"]]
         print(args)
     insert_table(conn, "compta", args)
-    print ("Trying to add some spendings")
+    print ("I: New database entry inserted: " + request.form["name"])
     conn.close()
     return redirect("/")
 
@@ -72,7 +71,7 @@ def add():
 def exportmonth():
     if not session.get('logged_in'):
         return render_template("login.html")
-    print ("Trying to export some spendings monthly")
+    print ("I: Exporting data by month")
     return render_template("index.html")
 
 @app.route('/exportyear')
@@ -92,7 +91,7 @@ def panel():
     if not session.get('logged_in'):
         return render_template("login.html")
     if session.get('privilege') < '3':
-        print ("You are not admin!")
+        print ("Error: Attempted connection to admin panel from unauthorized user: " + session['username'])
         return redirect('/')
     conn = init_db()
     rows = print_table(conn, "users")
@@ -139,11 +138,9 @@ def approve():
         name = request.form['id']
         rows = print_table(conn, "compta")
         for row in rows:
-            print("in rows")
             if str(row[0]) == str(name):
                 args = [row[2], str(row[3]), row[4], row[5], "Approved",row[1]]
                 update_row(conn, "compta", name, args);
-                print("Updated row")
     return redirect('/')
 
 @app.route('/delspend', methods=['POST'])
@@ -153,13 +150,9 @@ def delspend():
         name = request.form['id']
         rows = print_table(conn, "compta")
         for row in rows:
-            print("in rows")
-            print(row[0])
-            print("To ->")
-            print(name)
             if str(row[0]) == str(name):
                 delete_row(conn, "compta", name);
-                print("Deleted row")
+                print("Deleted row" + row[1])
     return redirect('/')
 
 app.run(debug=True)

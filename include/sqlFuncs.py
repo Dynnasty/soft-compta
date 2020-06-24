@@ -23,7 +23,7 @@ def check_table(conn):
         c.execute(table)
         c.execute(user)
         conn.commit()
-        print ("Database created")
+        print ("I: Database formatted and ready to use")
         return 200
     except Error as e:
         print(e)
@@ -39,11 +39,13 @@ def insert_table(conn, tablename, args):
 
     if (tablename == "users"):
         table = """ INSERT INTO """ + tablename + """ (name,pwd,permissions) VALUES ('""" + args[0] + """','""" + args[1] + """','""" + args[2] + """'); """
-    print(table)
+    print("I: Trying the following requqest:")
+    print (table)
     try:
         c = conn.cursor()
         c.execute(table)
         conn.commit()
+        print("I: Entry inserted into table: " + tablename)
         return 200
     except Error as e:
         print(e)
@@ -55,6 +57,7 @@ def print_table(conn, name):
         c.execute(table)
         conn.commit()
         rows = c.fetchall()
+        print ("I: Content of: " + name + " successfully fetched")
         return (rows)
     except Error as e:
         print(e)
@@ -65,6 +68,7 @@ def delete_row(conn, tablename, id):
         c = conn.cursor()
         c.execute(table)
         conn.commit()
+        print ("I: Entry deleted successfully")
         return 200
     except Error as e:
         print(e)
@@ -78,5 +82,6 @@ def update_row(conn, tablename, name, args):
         c = conn.cursor()
         c.execute(table)
         conn.commit()
+        print ("I: Entry: " + name + " updated successfully")
     except Error as e:
         print(e)
